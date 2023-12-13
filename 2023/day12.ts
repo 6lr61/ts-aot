@@ -1,8 +1,8 @@
-type FindSanta<
-  T extends ("🎅🏼" | "🎄")[],
-  A extends unknown[] = []
-> = T[A["length"]] extends "🎅🏼"
-  ? A["length"]
-  : T["length"] extends A["length"]
-  ? never
-  : FindSanta<T, [...A, 0]>;
+type FindSanta<F extends unknown[], A extends unknown[] = []> = F extends [
+  infer H,
+  ...infer T
+]
+  ? H extends "🎅🏼"
+    ? A["length"]
+    : FindSanta<T, [...A, H]>
+  : never;
