@@ -1,22 +1,18 @@
-// FindSanta from Day 12, except it evaluates to a false type instead of never (never extends number, for some reason?)
-type FindColumn<C extends unknown[], A extends unknown[] = []> = C extends [
-  infer H,
-  ...infer T
+// FindSanta from Day 12, but with extends type guards
+type FindColumn<C extends string[], A extends string[] = []> = C extends [
+  infer H extends string,
+  ...infer T extends string[]
 ]
   ? H extends "🎅🏼"
     ? A["length"]
     : FindColumn<T, [...A, H]>
-  : false;
+  : never;
 
-type FindSanta<F extends unknown[][], A extends unknown[] = []> = F extends [
-  infer Row,
-  ...infer Rest
+type FindSanta<F extends string[][], A extends string[] = []> = F extends [
+  infer Row extends string[],
+  ...infer Rest extends string[][]
 ]
-  ? Row extends unknown[]
-    ? FindColumn<Row> extends number
-      ? [A["length"], FindColumn<Row>]
-      : Rest extends unknown[][]
-      ? FindSanta<Rest, [0, ...A]>
-      : never
-    : never
+  ? FindColumn<Row> extends never
+    ? FindSanta<Rest, ["", ...A]>
+    : [A["length"], FindColumn<Row>]
   : never;
