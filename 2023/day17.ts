@@ -1,22 +1,12 @@
 type RockPaperScissors = "👊🏻" | "🖐🏾" | "✌🏽";
 
-interface Outcome {
-  "👊🏻": {
-    "🖐🏾": "win";
-    "✌🏽": "lose";
-  };
-  "🖐🏾": {
-    "👊🏻": "lose";
-    "✌🏽": "win";
-  };
-  "✌🏽": {
-    "👊🏻": "win";
-    "🖐🏾": "lose";
-  };
+interface Win {
+  "👊🏻": "🖐🏾";
+  "🖐🏾": "✌🏽";
+  "✌🏽": "👊🏻";
 }
 
-type WhoWins<P extends RockPaperScissors, O extends keyof Outcome> = P extends O
-  ? "draw"
-  : O extends keyof Outcome[P]
-  ? Outcome[P][O]
-  : never;
+type WhoWins<
+  P extends RockPaperScissors,
+  O extends RockPaperScissors
+> = P extends O ? "draw" : O extends Win[P] ? "win" : "lose";
