@@ -54,9 +54,6 @@ type AddToBoard<
   : // "bottom"
     [B[0], B[1], InsertRow<B[2], X, C>];
 
-type Test = AddToBoard<EmptyBoard, "bottom", "left", "❌">;
-//   ^?
-
 interface Lines<B extends TicTactToeBoard> {
   leftLine: [B[0][0], B[1][0], B[2][0]];
   centerLine: [B[0][1], B[1][1], B[2][1]];
