@@ -66,21 +66,19 @@ interface Lines<B extends TicTactToeBoard> {
 }
 
 type Won<B extends TicTactToeBoard, C extends TicTacToeChip> = {
-  [K in keyof Lines<B>]: Lines<B>[K] extends [C, C, C] ? "win" : never;
-}[keyof Lines<B>] extends never
-  ? false
-  : true;
+  [K in keyof Lines<B>]: Lines<B>[K] extends [C, C, C] ? true : never;
+}[keyof Lines<B>];
 
 type NextState<
   B extends TicTactToeBoard,
   S extends TicTacToeState
 > = S extends "❌"
-  ? Won<B, "❌"> extends true
+  ? true extends Won<B, "❌">
     ? "❌ Won"
     : B extends TicTacToeChip[][]
     ? "Draw"
     : "⭕"
-  : Won<B, "⭕"> extends true
+  : true extends Won<B, "⭕">
   ? "⭕ Won"
   : B extends TicTacToeChip[][]
   ? "Draw"
